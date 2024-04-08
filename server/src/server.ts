@@ -1,17 +1,19 @@
 import "dotenv/config";
-import express from "express";
+import app from "./app";
 import env from "./utils/validateEnv";
-
-const app = express();
+import mongoose from "mongoose";
 
 const port = env.PORT;
-
-console.log();
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
 });
 
-app.get("/", (req, res) => {
-  res.send("Connected ");
-});
+mongoose
+  .connect(env.MONGO_CONNECTION_STRING)
+  .then(() => {
+    console.log("Mongoose connected successfully");
+  })
+  .catch((err) => {
+    console.error(err);
+  });
