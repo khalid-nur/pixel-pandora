@@ -1,7 +1,11 @@
 import express, { Request, Response, NextFunction } from "express";
 import imageRoutes from "./routes/imagesRoute";
+import morgan from "morgan";
+import createHttpError, { isHttpError } from "http-errors";
 
 const app = express();
+
+app.use(morgan("dev"));
 
 app.use(express.json());
 
@@ -10,7 +14,7 @@ app.use("/api/v1/images", imageRoutes);
 
 // Handling requests to unknown endpoints
 app.use((req: Request, res: Response, next: NextFunction) => {
-  next(Error("Endpoint not found"));
+  next(createHttpError(404, "Endpoint not found"));
 });
 
 // Error handling middleware that catches any errors thrown
@@ -18,12 +22,14 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
   let errorMessage = "An unknown error occurred";
   // Check if error is an instance of the Error class to get its message.
-  if (error instanceof Error) {
+  let statusCode = 500;
+  if (isHttpError(error)) {
+    statusCode = error.status;
     errorMessage = error.message;
   }
 
   // Send a 500 status code with the error message.
-  res.status(500).json(errorMessage);
+  res.status(statusCode).json(errorMessage);
 });
 
 export default app;
