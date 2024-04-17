@@ -11,8 +11,10 @@ const Navbar = () => {
 
       <nav className="flex gap-4">
         <ul className=" hidden md:flex gap-4  ">
-          <li className="p-2 cursor-pointer text-[#969397]">Generate</li>
-          <li className="p-2 cursor-pointer text-[#969397] text-base ">
+          <li className="p-2 cursor-pointer font-figtree text-[#969397]">
+            Generate
+          </li>
+          <li className="p-2 cursor-pointer font-figtree text-[#969397] text-base ">
             Gallery
           </li>
         </ul>

@@ -2,7 +2,10 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    fontFamily: {
+      figtree: ["Figtree", "sans-serif"],
+      redHat: ["Red Hat Display", "sans-serif"],
+    },
   },
   plugins: [],
 };

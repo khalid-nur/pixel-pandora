@@ -11,7 +11,7 @@ import { RiAccountCircleFill } from "react-icons/ri";
 const ProfileDropdown = () => {
   const [dropdown, setDropdown] = useState<null | HTMLElement>(null);
   const isDropdownOpen = Boolean(dropdown);
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setDropdown(event.currentTarget);
   };
   const closeDropdownHandler = () => {
@@ -26,7 +26,7 @@ const ProfileDropdown = () => {
 
           <button onClick={handleClick}>
             <span
-              className="text-[#6f6d71] font-semibold"
+              className=" text-zinc-700 font-figtree font-semibold"
               onClick={handleClick}
             >
               Khalid
