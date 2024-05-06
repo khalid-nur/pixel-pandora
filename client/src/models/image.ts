@@ -6,3 +6,8 @@ export interface IGallery {
   publicId: string;
   createdAt: string;
 }
+
+export interface IGalleryInput {
+  prompt: string;
+  requestedImageSize: string;
+}

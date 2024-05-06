@@ -1,4 +1,4 @@
-import { IGallery } from "../models/image";
+import { IGallery, IGalleryInput } from "../models/image";
 
 // Function to fetch data
 const fetchData = async (input: RequestInfo, init?: RequestInit) => {
@@ -21,4 +21,15 @@ export const getImages = async (): Promise<IGallery[]> => {
   });
 
   return responded.json();
+};
+
+// Creates a new image
+export const createImage = async (note: IGalleryInput): Promise<IGallery> => {
+  const respond = await fetchData("/api/v1/images/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(note),
+  });
+
+  return respond.json();
 };
