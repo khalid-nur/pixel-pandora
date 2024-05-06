@@ -11,8 +11,8 @@ export const getImages = async (
   next: NextFunction
 ) => {
   try {
-    // Finds all images in the database
-    const image = await GalleryModel.find();
+    // Finds all images in the database, sorted by the most recent created image
+    const image = await GalleryModel.find().sort({ createdAt: -1 });
     // Send a 200 OK response along with the found images in json format
     res.status(200).json(image);
   } catch (error) {

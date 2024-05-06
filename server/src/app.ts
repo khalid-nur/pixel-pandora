@@ -2,12 +2,15 @@ import express, { Request, Response, NextFunction } from "express";
 import imageRoutes from "./routes/imagesRoute";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
+import cors from "cors";
 
 const app = express();
 
 app.use(morgan("dev"));
 
 app.use(express.json());
+
+app.use(cors());
 
 // A route for handling our Api endpoints
 app.use("/api/v1/images", imageRoutes);
