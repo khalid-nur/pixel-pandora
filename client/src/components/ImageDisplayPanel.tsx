@@ -1,36 +1,18 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import { IGallery } from "../models/image";
-import { getImages } from "../api/imageGeneratorAPI";
 import { ClipLoader } from "react-spinners";
 import { CiImageOff } from "react-icons/ci";
+interface ImageDisplayPanelProps {
+  images: IGallery[];
+  isImageLoading: boolean;
+  showImageLoadingError: boolean;
+}
 
-const ImageDisplayPanel = () => {
-  const [images, setImages] = useState<IGallery[]>([]);
-  const [isImageLoading, setIsImageLoading] = useState(true);
-  const [showImageLoadingError, setShowImageLoadingError] = useState(false);
-
-  useEffect(() => {
-    const loadImages = async () => {
-      try {
-        setShowImageLoadingError(false);
-        setIsImageLoading(true);
-        // Fetch images from API
-        const images = await getImages();
-
-        setImages(images);
-        setIsImageLoading(false);
-      } catch (error) {
-        console.error(error);
-        setShowImageLoadingError(true);
-        setIsImageLoading(false);
-      }
-    };
-
-    loadImages();
-  }, []);
-
-  console.log(images);
-
+const ImageDisplayPanel = ({
+  images,
+  isImageLoading,
+  showImageLoadingError,
+}: ImageDisplayPanelProps) => {
   return (
     <>
       <h2 className="text-base font-figtree font-medium text-zinc-700 mb-2 border-b p-4 border-zinc-300">
