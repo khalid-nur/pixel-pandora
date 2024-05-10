@@ -11,3 +11,11 @@ export interface IGalleryInput {
   prompt: string;
   requestedImageSize: string;
 }
+
+export interface ImageSizeOption {
+  id: string;
+  value: string;
+  icon: JSX.Element;
+  label: string;
+  size: string;
+}
