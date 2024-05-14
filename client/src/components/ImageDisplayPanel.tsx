@@ -2,6 +2,8 @@
 import { IGallery } from "../models/image";
 import { ClipLoader } from "react-spinners";
 import { CiImageOff } from "react-icons/ci";
+import ModalImage from "./ModalImage";
+import { useState } from "react";
 interface ImageDisplayPanelProps {
   images: IGallery[];
   isImageLoading: boolean;
@@ -13,6 +15,12 @@ const ImageDisplayPanel = ({
   isImageLoading,
   showImageLoadingError,
 }: ImageDisplayPanelProps) => {
+  const [selectedImage, setSelectedImage] = useState<IGallery | null>(null);
+
+  const imageSelectHandler = (image: IGallery) => {
+    setSelectedImage(image);
+  };
+
   return (
     <>
       <h2 className="text-base font-figtree font-medium text-zinc-700 mb-2 border-b p-4 border-zinc-300">
@@ -41,7 +49,10 @@ const ImageDisplayPanel = ({
         ) : (
           <div className="p-2">
             <div className="flex justify-center">
-              <div className=" relative rounded-lg max-w-md min-w-64 inline-block cursor-pointer">
+              <div
+                className=" relative rounded-lg max-w-md min-w-64 inline-block cursor-pointer"
+                onClick={() => imageSelectHandler(images[0])}
+              >
                 <img
                   className="w-full rounded-2xl"
                   src={`${images[0]?.ImageUrl}`}
@@ -49,7 +60,7 @@ const ImageDisplayPanel = ({
                 />
                 <div className="absolute top-0 left-0 right-0 bottom-0 rounded-2xl text-white hover:bg-black/30 opacity-0 hover:opacity-100 ">
                   <div>
-                    {/* TODO: Add modal to display to the current image to user  */}
+                    <ModalImage image={selectedImage} />
                   </div>
                 </div>
               </div>
