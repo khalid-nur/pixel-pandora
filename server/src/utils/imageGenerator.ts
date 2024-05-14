@@ -32,7 +32,7 @@ export const generateImage = async ({
   requestedImageSize,
 }: generateImageProp) => {
   const imageResponse = await openAi.images.generate({
-    model: "dall-e-2",
+    model: "dall-e-3",
     prompt: prompt,
     n: 1,
     size: requestedImageSize,
