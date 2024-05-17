@@ -1,6 +1,16 @@
+import { Link, useLocation } from "react-router-dom";
 import Icon from "../assets/main-logo.png";
 import ProfileDropdown from "./ProfileDropdown";
 const Navbar = () => {
+  const location = useLocation();
+
+  console.log(location);
+
+  const isLinkActive = (path: string) => {
+    console.log(location.pathname === path);
+    return location.pathname === path;
+  };
+
   return (
     <header className="max-w-full mx-auto px-4 py-2 flex justify-between items-center bg-white  border-b border-zinc-300 ">
       <div className="flex items-center justify-center max-w-sm">
@@ -11,12 +21,27 @@ const Navbar = () => {
 
       <nav className="flex gap-4">
         <ul className=" hidden md:flex gap-4  ">
-          <li className="p-2 cursor-pointer font-figtree text-[#969397]">
-            Generate
-          </li>
-          <li className="p-2 cursor-pointer font-figtree text-[#969397] text-base ">
-            Gallery
-          </li>
+          <Link to={"/image-generator"}>
+            <li
+              className={`p-2 cursor-pointer font-figtree ${
+                isLinkActive("/image-generator")
+                  ? "text-black"
+                  : "text-[#969397]"
+              }`}
+            >
+              Generate
+            </li>
+          </Link>
+
+          <Link to={"/image-gallery"}>
+            <li
+              className={`p-2 cursor-pointer font-figtree ${
+                isLinkActive("/image-gallery") ? "text-black" : "text-[#969397]"
+              }`}
+            >
+              Gallery
+            </li>
+          </Link>
         </ul>
 
         <ProfileDropdown />
