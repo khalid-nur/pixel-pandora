@@ -3,6 +3,7 @@ import imageRoutes from "./routes/imagesRoute";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
 import cors from "cors";
+import userRoute from "./routes/userRoute";
 
 const app = express();
 
@@ -12,7 +13,10 @@ app.use(express.json());
 
 app.use(cors());
 
-// A route for handling our Api endpoints
+// A route for handling our user api endpoints
+app.use("/api/v1/users", userRoute);
+
+// A route for handling our image api endpoints
 app.use("/api/v1/images", imageRoutes);
 
 // Handling requests to unknown endpoints
