@@ -44,8 +44,51 @@ export const signup = async (
       password: passwordHashed,
     });
 
+    req.session.userId = newUser._id;
+
     // Sends a 201 response with the newly created user
     res.status(201).json(newUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check if email or password is missing
+    if (!email || !password) {
+      throw createHttpError(400, "Parameters missing");
+    }
+
+    // Find user by email and select password and email fields
+    const user = await UserModel.findOne({ email: email }).select(
+      "+password +email"
+    );
+
+    // If user is not found, throw a 401 error to inform user that it is a invalid credentials
+    if (!user) {
+      throw createHttpError(401, "Invalid credentials");
+    }
+
+    // Compare provided password with user's hashed password
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    // If passwords don't match, throw a 401 error to inform inform user that it is a invalid credentials
+    if (!passwordMatch) {
+      throw createHttpError(401, "Invalid credentials");
+    }
+
+    // Set userId in the session to indicate user is authenticated
+    req.session.userId = user._id;
+
+    // Send a 201 Created status and user data
+    res.status(201).json(user);
   } catch (error) {
     next(error);
   }

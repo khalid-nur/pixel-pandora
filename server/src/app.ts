@@ -4,6 +4,9 @@ import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
 import cors from "cors";
 import userRoute from "./routes/userRoute";
+import session from "express-session";
+import env from "./utils/validateEnv";
+import MongoStore from "connect-mongo";
 
 const app = express();
 
@@ -12,6 +15,24 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 app.use(cors());
+
+// A middleware to use session management with MongoDB as the session store.
+app.use(
+  session({
+    secret: env.SESSION_SECRET,
+    // Prevent session from being saved back to the session store if it wasn't modified during the request
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 60 * 60 * 1000, // Sets the maximum session duration to 1 hour for the session cookie
+    },
+
+    rolling: true,
+    store: MongoStore.create({
+      mongoUrl: env.MONGO_CONNECTION_STRING,
+    }),
+  })
+);
 
 // A route for handling our user api endpoints
 app.use("/api/v1/users", userRoute);

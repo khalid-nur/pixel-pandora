@@ -7,4 +7,5 @@ export default cleanEnv(process.env, {
   CLOUD_API_KEY: str(),
   CLOUD_API_SECRET: str(),
   OPEN_API_KEY: str(),
+  SESSION_SECRET: str(),
 });
