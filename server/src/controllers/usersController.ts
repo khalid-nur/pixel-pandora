@@ -3,6 +3,30 @@ import createHttpError from "http-errors";
 import { UserModel } from "../models/users";
 import bcrypt from "bcrypt";
 
+export const getAuthenticatedUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  // Retrieve the authenticated user's ID from the session
+  const authenticatedUserId = req.session.userId;
+
+  try {
+    // If no authenticated user ID is found in the session, throw a 401 error with user not authenticated message
+    if (!authenticatedUserId) {
+      throw createHttpError(401, "User not authenticated");
+    }
+
+    // Find the user in the database by their ID and select the email field
+    const user = await UserModel.findById(authenticatedUserId).select("+email");
+
+    // Send a 201 status code and the user data
+    res.status(201).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const signup = async (
   req: Request,
   res: Response,

@@ -1,7 +1,14 @@
 import express from "express";
-import { login, signup } from "../controllers/usersController";
+import {
+  getAuthenticatedUser,
+  login,
+  signup,
+} from "../controllers/usersController";
 
 const router = express.Router();
+
+// GET route to get the authenticated user's data
+router.get("/", getAuthenticatedUser);
 
 // POST route to handle user signup
 router.post("/signup", signup);
