@@ -117,3 +117,16 @@ export const login = async (
     next(error);
   }
 };
+
+export const logout = (req: Request, res: Response, next: NextFunction) => {
+  // Destroy the user's session
+  req.session.destroy((error) => {
+    // If there is an error destroying the session, pass the error to handle the error
+    if (error) {
+      next(error);
+    } else {
+      // If the session is successfully destroyed, send a 200 status code
+      res.sendStatus(200);
+    }
+  });
+};
