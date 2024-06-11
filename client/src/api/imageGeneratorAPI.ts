@@ -34,7 +34,7 @@ export const signup = async (credentials: SignUpCredentials): Promise<User> => {
 };
 
 // Logs in a user with provided credentials
-export const Login = async (credentials: LoginCredentials): Promise<User> => {
+export const login = async (credentials: LoginCredentials): Promise<User> => {
   const response = await fetchData("/api/v1/users/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
