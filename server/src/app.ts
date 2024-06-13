@@ -7,6 +7,7 @@ import userRoute from "./routes/userRoute";
 import session from "express-session";
 import env from "./utils/validateEnv";
 import MongoStore from "connect-mongo";
+import { requiredAuth } from "./middleware/auth";
 
 const app = express();
 
@@ -38,7 +39,7 @@ app.use(
 app.use("/api/v1/users", userRoute);
 
 // A route for handling our image api endpoints
-app.use("/api/v1/images", imageRoutes);
+app.use("/api/v1/images", requiredAuth, imageRoutes);
 
 // Handling requests to unknown endpoints
 app.use((req: Request, res: Response, next: NextFunction) => {

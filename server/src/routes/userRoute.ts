@@ -5,11 +5,12 @@ import {
   logout,
   signup,
 } from "../controllers/usersController";
+import { requiredAuth } from "../middleware/auth";
 
 const router = express.Router();
 
 // GET route to get the authenticated user's data
-router.get("/", getAuthenticatedUser);
+router.get("/", requiredAuth, getAuthenticatedUser);
 
 // POST route to handle user signup
 router.post("/signup", signup);
