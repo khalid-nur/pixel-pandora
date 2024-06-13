@@ -1,6 +1,7 @@
-import { Schema, model } from "mongoose";
+import { ObjectId, Schema, model } from "mongoose";
 
 interface IGallery {
+  userId: ObjectId; // Id of the user who owns the image
   prompt: string;
   imageSize: string;
   ImageUrl: string;
@@ -10,6 +11,7 @@ interface IGallery {
 // Create a schema for the Gallery model,
 const GallerySchema = new Schema<IGallery>(
   {
+    userId: { type: Schema.Types.ObjectId, required: true },
     prompt: { type: String, required: true },
     imageSize: { type: String, required: true },
     ImageUrl: { type: String },

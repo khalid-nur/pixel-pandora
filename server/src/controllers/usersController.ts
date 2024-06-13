@@ -12,11 +12,6 @@ export const getAuthenticatedUser = async (
   const authenticatedUserId = req.session.userId;
 
   try {
-    // If no authenticated user ID is found in the session, throw a 401 error with user not authenticated message
-    if (!authenticatedUserId) {
-      throw createHttpError(401, "User not authenticated");
-    }
-
     // Find the user in the database by their ID and select the email field
     const user = await UserModel.findById(authenticatedUserId).select("+email");
 

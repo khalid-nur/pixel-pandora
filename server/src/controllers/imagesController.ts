@@ -3,6 +3,7 @@ import { GalleryModel } from "../models/image";
 import { generateImage } from "../utils/imageGenerator";
 import createHttpError from "http-errors";
 import { ImageSizeType } from "../utils/imageGenerator";
+import { assertIsDefined } from "../utils/assertIsDefined";
 
 // This function handles requests to fetch all images from the database
 export const getImages = async (
@@ -10,9 +11,16 @@ export const getImages = async (
   res: Response,
   next: NextFunction
 ) => {
+  // Ensure the authenticatedUserId is defined
+  const authenticatedUserId = req.session.userId;
+
   try {
-    // Finds all images in the database, sorted by the most recent created image
-    const image = await GalleryModel.find().sort({ createdAt: -1 });
+    assertIsDefined(authenticatedUserId);
+
+    // Search in the database for all images connected to the authenticated user and arranged in descending order of creation date.
+    const image = await GalleryModel.find({ userId: authenticatedUserId }).sort(
+      { createdAt: -1 }
+    );
     // Send a 200 OK response along with the found images in json format
     res.status(200).json(image);
   } catch (error) {
@@ -28,8 +36,12 @@ export const createImage = async (
   next: NextFunction
 ) => {
   const { prompt, requestedImageSize } = req.body;
+  const authenticatedUserId = req.session.userId;
 
   try {
+    // Ensure the authenticatedUserId is defined
+    assertIsDefined(authenticatedUserId);
+
     // Check if the prompt is provided
     if (!prompt) {
       throw createHttpError(
@@ -71,6 +83,7 @@ export const createImage = async (
 
     // Create a new gallery image record with the generated image
     const newGalleryImage = await GalleryModel.create({
+      userId: authenticatedUserId,
       prompt: prompt,
       imageSize: requestedImageSize,
       ImageUrl: generatedImageData?.secure_url,
