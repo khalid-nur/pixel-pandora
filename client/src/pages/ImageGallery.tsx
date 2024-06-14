@@ -53,20 +53,18 @@ function ImageGallery() {
 
       {images.length > 0 && (
         <div className="container h-[calc(100vh-56px)]  mx-auto px-4 py-4">
-          <div className=" grid grid-cols-1 h-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
+          <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
             {images.map((image) => (
-              <div
-                key={image._id}
-                className="relative rounded "
-                onClick={() => imageSelectHandler(image)}
-              >
-                <img
-                  className=" h-full w-full object-cover rounded-2xl"
-                  src={image.ImageUrl}
-                />
-                <div className="absolute top-0 left-0 right-0 bottom-0 rounded-2xl text-white hover:bg-black/30 opacity-0 hover:opacity-100 ">
-                  <div>
-                    <ModalImage image={selectedImage} />
+              <div key={image._id} onClick={() => imageSelectHandler(image)}>
+                <div className="relative">
+                  <img
+                    className="object-cover rounded-2xl"
+                    src={image.ImageUrl}
+                  />
+                  <div className="absolute top-0 left-0 right-0 bottom-0 rounded-2xl text-white hover:bg-black/30 opacity-0 hover:opacity-100 ">
+                    <div>
+                      <ModalImage image={selectedImage} />
+                    </div>
                   </div>
                 </div>
               </div>
