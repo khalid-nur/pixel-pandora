@@ -10,10 +10,11 @@ import ImageGallery from "./pages/ImageGallery";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { useAuth } from "./hooks/useAuthContext";
+import { ClipLoader } from "react-spinners";
+import NoPageFound from "./pages/NoPageFound";
 
 const App = () => {
   const { authReady, user } = useAuth();
-  console.log(authReady);
 
   return (
     <div>
@@ -37,10 +38,16 @@ const App = () => {
               path="/image-gallery"
               element={user ? <ImageGallery /> : <Navigate to="/login" />}
             />
+            <Route
+              path="*"
+              element={user ? <NoPageFound /> : <Navigate to="/login" />}
+            />
           </Routes>
         </Router>
       ) : (
-        <div>Loading spinner or animation...</div>
+        <div className="grid place-content-center h-screen bg-[#F5F3F2]">
+          <ClipLoader color="#000" size={80} />
+        </div>
       )}
     </div>
   );
