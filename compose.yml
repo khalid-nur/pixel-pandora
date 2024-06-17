@@ -1,0 +1,62 @@
+# Specifies the version of Docker Compose to use
+version: "3.8"
+
+# The services or the containers that make up the application
+services:
+  web:
+    # The web service depends on the API service, so it starts after the API
+    depends_on:
+      - api
+    # Build the web service from the Dockerfile in the client directory
+    build: ./client
+    # Expose port 5173 on the host and map it to port 5173 in the container
+    ports:
+      - 5173:5173
+
+    develop:
+      watch:
+        # Rebuild the container if package.json or package-lock.json changes
+        - path: ./client/package.json
+          action: rebuild
+        - path: ./client/package-lock.json
+          action: rebuild
+        # Update changes in the client directory with the container in real-time
+        - path: ./client
+          target: /app
+          action: sync
+
+  api:
+    # The API service depends on the database service, so it starts after the database
+    depends_on:
+      - db
+    # Build the API service from the Dockerfile in the server directory
+    build: ./server
+    # Expose port 8080 on the host and map it to port 8080 in the container
+    ports:
+      - 8080:8080
+
+    develop:
+      watch:
+        # Rebuild the container if package.json or package-lock.json changes
+        - path: ./server/package.json
+          action: rebuild
+        - path: ./server/package-lock.json
+          action: rebuild
+        # Sync changes in the server directory with the container in real-time
+        - path: ./server
+          target: /app
+          action: sync
+
+  db:
+    # Use the latest MongoDB image from Docker Hub
+    image: mongo:latest
+    # Expose port 27017 on the host and map it to port 27017 in the container (MongoDB default port)
+    ports:
+      - 27017:27017
+    # Mount the volume 'pixelpandora-db' to the MongoDB data directory in the container to persist data
+    volumes:
+      - pixelpandora-db:/data/db
+
+# Set the volume for MongoDB data
+volumes:
+  pixelpandora-db:
