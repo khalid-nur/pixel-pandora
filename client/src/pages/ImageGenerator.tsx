@@ -35,7 +35,6 @@ const ImageGenerator = () => {
     setRefreshImages((prev) => !prev);
   };
 
-  console.log(images);
   return (
     <main>
       <div className=" max-w-full mx-auto h-[calc(100vh-56px)] ">

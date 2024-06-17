@@ -27,7 +27,7 @@ const ImageGenerationForm = ({ onImageUpdate }: ImageGenerationFormProps) => {
       await createImage(input);
       onImageUpdate();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

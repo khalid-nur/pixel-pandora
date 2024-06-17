@@ -27,9 +27,6 @@ function ImageGallery() {
     setSelectedImage(image);
   };
 
-  console.log(images.length);
-  console.log(selectedImage);
-
   return (
     <div className="App">
       <header className=" flex flex-col justify-between  p-2 font-bold md:flex-row border-b border-zinc-300 md:items-center ">

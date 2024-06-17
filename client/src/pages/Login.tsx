@@ -19,7 +19,7 @@ const Login = () => {
       // Login user with provided credentials
       await login(credentials);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

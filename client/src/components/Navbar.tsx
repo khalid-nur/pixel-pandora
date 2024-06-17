@@ -4,10 +4,7 @@ import ProfileDropdown from "./ProfileDropdown";
 const Navbar = () => {
   const location = useLocation();
 
-  console.log(location);
-
   const isLinkActive = (path: string) => {
-    console.log(location.pathname === path);
     return location.pathname === path;
   };
 

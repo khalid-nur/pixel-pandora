@@ -19,7 +19,7 @@ const Signup = () => {
       // Sign up user with provided credentials
       await signup(credentials);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
